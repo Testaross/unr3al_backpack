@@ -32,7 +32,8 @@ Item to add to `ox_inventory/data/items.lua`
 	},
 ```
 
-## Preview
+## Preview from Wasabi
+The preview is going to get updated at some point for the clothing part of this fork
 https://www.youtube.com/watch?v=OsjuUtE9Pg8
 
 # Support
