@@ -4,9 +4,8 @@ This resource was created as a free script for backpacks using ox_inventory
 
 <b>Features:</b>
 - 0.0 ms Usage
-- Perisistent backpack prop added to back when in inventory
 - Customizable item name and storage parameters
-- Compatibility for ox_core, ESX, QBCore, whatever else running ox_inventory
+- Compatibility for ESX
 
 ## Installation
 
