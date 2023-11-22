@@ -110,3 +110,14 @@ CreateThread(function()
 		end
 	end)
 end)
+
+RegisterServerEvent('wasabi_backpack:save')
+AddEventHandler('wasabi_backpack:save', function(skin)
+    local src = source
+	local xPlayer = ESX.GetPlayerFromId(src)
+
+	MySQL.update('UPDATE users SET skin = @skin WHERE identifier = @identifier', {
+		['@skin'] = json.encode(skin),
+		['@identifier'] = xPlayer.identifier
+	})
+end)

@@ -7,24 +7,42 @@ local hash = `p_michael_backpack_s`
 local ox_inventory = exports.ox_inventory
 local ped = cache.ped
 local justConnect = true
-
+local skin
 
 
 local function PutOnBag()
-    local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(ped,0.0,3.0,0.5))
-    lib.requestModel(hash, 100)
-    bagObj = CreateObjectNoOffset(hash, x, y, z, true, false)
-    AttachEntityToEntity(bagObj, ped, GetPedBoneIndex(ped, 24818), 0.07, -0.11, -0.05, 0.0, 90.0, 175.0, true, true, false, true, 1, true)
+    print("Putting on Backpack")
+    TriggerEvent('skinchanger:getSkin', function(skin)
+        if skin.sex == 0 then
+            TriggerEvent('skinchanger:loadClothes', skin, Config.Uniforms.Male)
+        else
+            TriggerEvent('skinchanger:loadClothes', skin, Config.Uniforms.Female)
+        end
+        saveSkin()
+    end)
     bagEquipped = true
 end
 
+saveSkin = function()
+    Wait(100)
+
+    TriggerEvent('skinchanger:getSkin', function(skin)
+        TriggerServerEvent('wasabi_backpack:save', skin)
+    end)
+end
+
 local function RemoveBag()
-    if DoesEntityExist(bagObj) then
-        DeleteObject(bagObj)
-    end
-    SetModelAsNoLongerNeeded(hash)
-    bagObj = nil
-    bagEquipped = nil
+    print("Removing Backpack")
+    TriggerEvent('skinchanger:getSkin', function(skin)
+        if skin.sex == 0 then
+            TriggerEvent('skinchanger:loadClothes', skin, Config.CleanUniforms.Male)
+        else
+            TriggerEvent('skinchanger:loadClothes', skin, Config.CleanUniforms.Female)
+        end
+        saveSkin()
+        bagObj = nil
+        bagEquipped = nil
+    end)
 end
 
 AddEventHandler('ox_inventory:updateInventory', function(changes)
