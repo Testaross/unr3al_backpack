@@ -1,27 +1,12 @@
------------------For support, scripts, and more----------------
---------------- https://discord.gg/wasabiscripts  -------------
----------------------------------------------------------------
 Config = {}
 
 Config.checkForUpdates = true -- Check for updates?
+Config.Debug = false
 
-Config.OneBagInInventory = true -- Allow only one bag in inventory?
-
-Config.BackpackStorage = {
-    slots = 35, -- Slots of backpack storage
-    weight = 20000 -- Total weight for backpack
-}
-
-
-Config.Uniforms = {
-
-    Male = {
-        ['bags_1'] = 41,
-        ['bags_2'] = 0,
-    },
-    Female = {
-        ['bags_1'] = 41,
-        ['bags_2'] = 0,
+Config.Filter = { -- Items not allowed in your bags
+    itemFilter = {
+        bag1 = true,
+        bag2 = true
     }
 }
 
@@ -35,6 +20,37 @@ Config.CleanUniforms = {
         ['bags_1'] = 0,
         ['bags_2'] = 0,
     }
+}
+
+Config.Backpacks = {
+    ['bag1'] = {
+        Slots = 35,
+        Weight = 20000,
+        Uniform = {
+            Male = {
+                ['bags_1'] = 41,
+                ['bags_2'] = 0,
+            },
+            Female = {
+                ['bags_1'] = 41,
+                ['bags_2'] = 0,
+            }
+        }
+    },
+    ['bag2'] = {
+        Slots = 15,
+        Weight = 5000,
+        Uniform = {
+            Male = {
+                ['bags_1'] = 41,
+                ['bags_2'] = 0,
+            },
+            Female = {
+                ['bags_1'] = 41,
+                ['bags_2'] = 0,
+            }
+        }
+    },
 }
 
 Strings = { -- Notification strings
