@@ -22,7 +22,7 @@ RegisterServerEvent('unr3al_backpack:openBackpack')
 AddEventHandler('unr3al_backpack:openBackpack', function(identifier, bagtype)
 	bagtype = bagtype
 	if not registeredStashes[identifier] then
-        ox_inventory:RegisterStash(bagtype..'_'..identifier, 'Backpack'..bagtype, Config.Backpacks[bagtype].Slots, Config.Backpacks[bagtype].Weight, false)
+        ox_inventory:RegisterStash(bagtype..'_'..identifier, Config.Backpacks[bagtype].Label, Config.Backpacks[bagtype].Slots, Config.Backpacks[bagtype].Weight, false)
         registeredStashes[identifier] = true
     end
 end)
@@ -31,7 +31,7 @@ lib.callback.register('unr3al_backpack:getNewIdentifier', function(source, slot,
 	bagtype = bagtype
 	local newId = GenerateSerial()
 	ox_inventory:SetMetadata(source, slot, {identifier = newId})
-	ox_inventory:RegisterStash(bagtype..'_'..newId, 'Backpack'..bagtype, Config.Backpacks[bagtype].Slots, Config.Backpacks[bagtype].Weight, false)
+	ox_inventory:RegisterStash(bagtype..'_'..newId, Config.Backpacks[bagtype].Label, Config.Backpacks[bagtype].Slots, Config.Backpacks[bagtype].Weight, false)
 	registeredStashes[newId] = true
 	return newId
 end)

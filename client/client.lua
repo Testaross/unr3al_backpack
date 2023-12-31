@@ -1,9 +1,9 @@
-local bagEquipped, bagObj, skin
+local bagEquipped, skin
 local ox_inventory = exports.ox_inventory
 local ped = cache.ped
 local justConnect = true
 local count = 0
-
+local timeout, changed, puttedon = false, false, false
 
 local function PutOnBag(bagtype)
     bagtype = bagtype
@@ -37,7 +37,6 @@ local function RemoveBag()
             TriggerEvent('skinchanger:loadClothes', skin, Config.CleanUniforms.Female)
         end
         saveSkin()
-        bagObj = nil
         bagEquipped = nil
     end)
 end
@@ -49,28 +48,48 @@ AddEventHandler('ox_inventory:updateInventory', function(changes)
     end
     if Config.Debug then print("Update Inv") end
     for k, v in pairs(changes) do
-        if Config.Debug then print("V: "..tostring(v)) end
-        if type(v) == 'table' then
-            for vbag in pairs(Config.Backpacks) do
-                count = count + ox_inventory:Search('count', vbag)
-                if count > 0 and (not bagEquipped or not bagObj) then
+        if not changed then
+            changed = true
+            if Config.Debug then print("V: "..tostring(v)) end
+            if type(v) == 'table' then
+                print("Timeout")
+                if not timeout then
+                    timeout = true
+                    print ("Timeout started")
+                    local count = 0
                     for vbag in pairs(Config.Backpacks) do
-                        bagcount = ox_inventory:GetItemCount(vbag)
-                        if bagcount >= 1 then
+                            count = ox_inventory:Search('count', vbag)
+                            if count > 0 and (not bagEquipped) then
+                                if count >= 1 then
+                                    PutOnBag(vbag)
+                                    if Config.Debug then print("Count: "..count) end
+                                end
+                            end
+                    end
+                end
+                timeout = false
+            elseif type(v) == 'boolean' then
+                if not timeout then
+                    local count = 0
+                    for vbag in pairs(Config.Backpacks) do
+                        count = count + ox_inventory:Search('count', vbag)
+                    end
+                    if count > 0 and (not bagEquipped) then
+                        if count >= 1 then
                             PutOnBag(vbag)
-                            if Config.Debug then print("Count: "..bagcount) end
+                            if Config.Debug then print("Count: "..count) end
+                        end                                
+                    else
+                        if count == 0 and bagEquipped then
+                            RemoveBag()
                         end
                     end
-                elseif count < 1 and bagEquipped then
-                    RemoveBag()
                 end
             end
+        end
 
-        end
-        if type(v) == 'boolean' then
-            RemoveBag()
-        end
     end
+    changed = false
 end)
 lib.onCache('ped', function(value)
     ped = value

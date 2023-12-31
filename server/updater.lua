@@ -1,3 +1,6 @@
+-----------------For support, scripts, and more----------------
+--------------- https://discord.gg/wasabiscripts  -------------
+---------------------------------------------------------------
 if Config.checkForUpdates then
     local curVersion = GetResourceMetadata(GetCurrentResourceName(), "version")
     local resourceName = "unr3al_backpack"
