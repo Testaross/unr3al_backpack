@@ -28,13 +28,14 @@ saveSkin = function()
     end)
 end
 
-local function RemoveBag()
+local function RemoveBag(bagtype)
+    bagtype = bagtype
     if Config.Debug then print("Removing Backpack") end
     TriggerEvent('skinchanger:getSkin', function(skin)
         if skin.sex == 0 then
-            TriggerEvent('skinchanger:loadClothes', skin, Config.CleanUniforms.Male)
+            TriggerEvent('skinchanger:loadClothes', skin, Config.Backpacks[bagtype].CleanUniform.Male)
         else
-            TriggerEvent('skinchanger:loadClothes', skin, Config.CleanUniforms.Female)
+            TriggerEvent('skinchanger:loadClothes', skin, Config.Backpacks[bagtype].CleanUniform.Female)
         end
         saveSkin()
         bagEquipped = nil
@@ -81,7 +82,7 @@ AddEventHandler('ox_inventory:updateInventory', function(changes)
                         end                                
                     else
                         if count == 0 and bagEquipped then
-                            RemoveBag()
+                            RemoveBag(vbag)
                         end
                     end
                 end

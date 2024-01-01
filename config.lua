@@ -10,18 +10,6 @@ Config.Filter = { -- Items not allowed in your bags
     }
 }
 
-Config.CleanUniforms = {
-
-    Male = {
-        ['bags_1'] = 0,
-        ['bags_2'] = 0,
-    },
-    Female = {
-        ['bags_1'] = 0,
-        ['bags_2'] = 0,
-    }
-}
-
 Config.Backpacks = {
     ['bag1'] = {
         Slots = 35,
@@ -34,6 +22,16 @@ Config.Backpacks = {
             },
             Female = {
                 ['bags_1'] = 41,
+                ['bags_2'] = 0,
+            }
+        },
+        CleanUniform = {
+            Male = {
+                ['bags_1'] = 0,
+                ['bags_2'] = 0,
+            },
+            Female = {
+                ['bags_1'] = 0,
                 ['bags_2'] = 0,
             }
         }
@@ -49,6 +47,16 @@ Config.Backpacks = {
             },
             Female = {
                 ['bags_1'] = 41,
+                ['bags_2'] = 0,
+            }
+        },
+        CleanUniform = {
+            Male = {
+                ['bags_1'] = 0,
+                ['bags_2'] = 0,
+            },
+            Female = {
+                ['bags_1'] = 0,
                 ['bags_2'] = 0,
             }
         }

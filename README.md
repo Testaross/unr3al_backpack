@@ -51,6 +51,7 @@ Configure the bags in `unr3al_backpack/config.lua`
     ['bag1'] = {
         Slots = 35,
         Weight = 20000,
+        Label = 'Backpack',
         Uniform = {
             Male = {
                 ['bags_1'] = 41,
@@ -60,11 +61,22 @@ Configure the bags in `unr3al_backpack/config.lua`
                 ['bags_1'] = 41,
                 ['bags_2'] = 0,
             }
+        },
+        CleanUniform = {
+            Male = {
+                ['bags_1'] = 0,
+                ['bags_2'] = 0,
+            },
+            Female = {
+                ['bags_1'] = 0,
+                ['bags_2'] = 0,
+            }
         }
     },
     ['bag2'] = {
         Slots = 15,
         Weight = 5000,
+        Label = 'Backpack',
         Uniform = {
             Male = {
                 ['bags_1'] = 41,
@@ -72,6 +84,16 @@ Configure the bags in `unr3al_backpack/config.lua`
             },
             Female = {
                 ['bags_1'] = 41,
+                ['bags_2'] = 0,
+            }
+        },
+        CleanUniform = {
+            Male = {
+                ['bags_1'] = 0,
+                ['bags_2'] = 0,
+            },
+            Female = {
+                ['bags_1'] = 0,
                 ['bags_2'] = 0,
             }
         }

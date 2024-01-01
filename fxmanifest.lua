@@ -3,7 +3,7 @@ game 'gta5'
 lua54 'yes'
 
 description 'Clothing Based Backpack for Ox Inventory'
-version '1.0.2'
+version '1.0.3'
 
 client_scripts {
     'client/**.lua'
