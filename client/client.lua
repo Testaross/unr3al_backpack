@@ -27,7 +27,7 @@ saveSkin = function()
         TriggerServerEvent('unr3al_backpack:save', skin)
     end)
 end
-
+--[[
 local function RemoveBag(bagtype)
     bagtype = bagtype
     if Config.Debug then print("Removing Backpack") end
@@ -37,6 +37,24 @@ local function RemoveBag(bagtype)
         else
             TriggerEvent('skinchanger:loadClothes', skin, Config.Backpacks[bagtype].CleanUniform.Female)
         end
+        saveSkin()
+        bagEquipped = nil
+    end)
+end
+--]]
+local function RemoveBag(bagtype)
+    bagtype = bagtype
+    if Config.Debug then print("Removing Backpack") end
+    TriggerEvent('skinchanger:getSkin', function(skin)
+        print(skin)
+        print(bagtype)
+        local clothesWithoutBag
+        if skin.sex == 0 then
+            clothesWithoutBag = Config.CleanUniform.Male
+        else
+            clothesWithoutBag = Config.CleanUniform.Female
+        end
+        TriggerEvent('skinchanger:loadClothes', skin, clothesWithoutBag)
         saveSkin()
         bagEquipped = nil
     end)
@@ -53,10 +71,8 @@ AddEventHandler('ox_inventory:updateInventory', function(changes)
             changed = true
             if Config.Debug then print("V: "..tostring(v)) end
             if type(v) == 'table' then
-                print("Timeout")
                 if not timeout then
                     timeout = true
-                    print ("Timeout started")
                     local count = 0
                     for vbag in pairs(Config.Backpacks) do
                             count = ox_inventory:Search('count', vbag)
