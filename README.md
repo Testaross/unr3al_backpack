@@ -7,6 +7,10 @@ This resource was created as a free script for backpacks using ox_inventory
 - Customizable item name and storage parameters
 - Compatibility for ESX
 
+## Known bugs
+-Player can have multiple bag types example: 1x bag1 and 1x bag2
+- Some problems with illenium-appearance when entering and exiting vehicles
+
 ## Installation
 
 - Download this script
