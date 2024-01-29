@@ -8,7 +8,7 @@ This resource was created as a free script for backpacks using ox_inventory
 - Compatibility for ESX
 
 ## Known bugs
--Player can have multiple bag types example: 1x bag1 and 1x bag2
+- Player can have multiple bag types example: 1x bag1 and 1x bag2
 - Some problems with illenium-appearance when entering and exiting vehicles
 
 ## Installation
