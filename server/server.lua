@@ -60,14 +60,97 @@ CreateThread(function()
 		return true
 	end, {
 		print = false,
-		itemFilter = {
-			bag1 = true,
-			bag2 = true
-		},
+		Config.Filter
+	})
+
+	local createHook
+	createHook = exports.ox_inventory:registerHook('createItem', function(payload)
+		local count_bagpacks = 0
+
+		for vbag in pairs(Config.Backpacks) do
+			count_bagpacks = ox_inventory:GetItem(payload.inventoryId, vbag, nil, true)
+			local playerItems = ox_inventory:GetInventoryItems(payload.inventoryId)
+	
+	
+			if count_bagpacks > 0 then
+				local slot = nil
+	
+				for i,k in pairs(playerItems) do
+					if k.name == vbag then
+						slot = k.slot
+						break
+					end
+				end
+	
+				Citizen.CreateThread(function()
+					local inventoryId = payload.inventoryId
+					local dontRemove = slot
+					Citizen.Wait(1000)
+	
+					for i,k in pairs(ox_inventory:GetInventoryItems(inventoryId)) do
+						if k.name == vbag and dontRemove ~= nil and k.slot ~= dontRemove then
+							local success = ox_inventory:RemoveItem(inventoryId, vbag, 1, nil, k.slot)
+							if success then
+								TriggerClientEvent('ox_lib:notify', inventoryId, {type = 'error', title = Strings.action_incomplete, description = Strings.one_backpack_only}) 
+							end
+							break
+						end
+					end
+				end)
+			end
+		end
+
+--[[
+		print(ox_inventory:GetItemCount(payload.inventoryId, "bag1", nil, false))
+		for vbag in pairs(Config.Backpacks) do
+			--count_bagpacks = ox_inventory:GetItem(payload.inventoryId, vbag, nil, true)
+			count_bagpacks = ox_inventory:GetItemCount(payload.inventoryId, vbag, nil, false)
+			local count_backpacks = ox_inventory:GetItemCount(payload.inventoryId, vbag, nil, false)
+			print("count: "..count_bagpacks)
+			print("vbag: "..vbag)
+			if count_backpacks >= 1 then
+				bag_pack = vbag
+			end
+		end
+		print("count: "..count_bagpacks)
+		local playerItems = ox_inventory:GetInventoryItems(payload.inventoryId)
+
+		if count_bagpacks > 0 then
+			local slot = nil
+
+			for i,k in pairs(playerItems) do
+				if k.name == bag_pack then
+					slot = k.slot
+					break
+				end
+			end
+
+			Citizen.CreateThread(function()
+				local inventoryId = payload.inventoryId
+				local dontRemove = slot
+				Citizen.Wait(1000)
+
+				for i,k in pairs(ox_inventory:GetInventoryItems(inventoryId)) do
+					if k.name == bag_pack and dontRemove ~= nil and k.slot ~= dontRemove then
+						local success = ox_inventory:RemoveItem(inventoryId, bag_pack, 1, nil, k.slot)
+						if success then
+							TriggerClientEvent('ox_lib:notify', inventoryId, {type = 'error', title = Strings.action_incomplete, description = Strings.one_backpack_only}) 
+						end
+						break
+					end
+				end
+			end)
+		end
+--]]
+
+	end, {
+		print = false,
+		Config.Filter
 	})
 
 	AddEventHandler('onResourceStop', function()
 		ox_inventory:removeHooks(swapHook)
+		ox_inventory:removeHooks(createHook)
 	end)
 end)
 
