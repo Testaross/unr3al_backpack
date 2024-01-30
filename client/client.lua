@@ -9,14 +9,18 @@ local function PutOnBag(bagtype)
     bagtype = bagtype
     if Config.Debug then print("Putting on Backpack") end
     if Config.Debug then print("Bag type: "..bagtype) end
-    TriggerEvent('skinchanger:getSkin', function(skin)
-        if skin.sex == 0 then
-            TriggerEvent('skinchanger:loadClothes', skin, Config.Backpacks[bagtype].Uniform.Male)
-        else
-            TriggerEvent('skinchanger:loadClothes', skin, Config.Backpacks[bagtype].Uniform.Female)
-        end
-        saveSkin()
-    end)
+    if Config.Framework == 'ESX' then
+        TriggerEvent('skinchanger:getSkin', function(skin)
+            if skin.sex == 0 then
+                TriggerEvent('skinchanger:loadClothes', skin, Config.Backpacks[bagtype].Uniform.Male)
+            else
+                TriggerEvent('skinchanger:loadClothes', skin, Config.Backpacks[bagtype].Uniform.Female)
+            end
+            saveSkin()
+        end)
+    elseif Config.Framework == 'ND' then
+        local appearance = fivemAppearance:getPedAppearance(cache.ped)
+    end
     PlayerState:set('backpack', true)
 end
 
