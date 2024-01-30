@@ -110,10 +110,10 @@ AddEventHandler('ox_inventory:updateInventory', function(changed)
     for k, v in pairs(changed) do
         if type(v) == 'table' and not timeout then
             timeout = true
-            HandleTableChange(v)
+            tableChange(v)
             timeout = false
         elseif type(v) == 'boolean' and not timeout then
-            HandleBooleanChange()
+            boolChange()
         end
     end
 end)
