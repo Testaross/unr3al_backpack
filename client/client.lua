@@ -3,6 +3,7 @@ local ox_inventory = exports.ox_inventory
 local ped = cache.ped
 local count = 0
 local timeout, changed, puttedon = false, false, false
+local PlayerState = LocalPlayer.state
 
 local function PutOnBag(bagtype)
     bagtype = bagtype
@@ -16,7 +17,7 @@ local function PutOnBag(bagtype)
         end
         saveSkin()
     end)
-    bagEquipped = true
+    PlayerState:set('backpack', true)
 end
 
 saveSkin = function()
@@ -41,21 +42,26 @@ local function RemoveBag(bagtype)
     end)
 end
 --]]
+
+AddStateBagChangeHandler('backpack', nil, function(bagName, _, backItems, _, replicated)
+    if replicated then
+        return
+    end
+end)
+
 local function RemoveBag(bagtype)
     bagtype = bagtype
     if Config.Debug then print("Removing Backpack") end
     TriggerEvent('skinchanger:getSkin', function(skin)
-        print(skin)
-        print(bagtype)
         local clothesWithoutBag
-        if skin.sex == 0 then
+        if skin.sex == 0 then56
             clothesWithoutBag = Config.CleanUniform.Male
         else
             clothesWithoutBag = Config.CleanUniform.Female
         end
         TriggerEvent('skinchanger:loadClothes', skin, clothesWithoutBag)
         saveSkin()
-        bagEquipped = nil
+        PlayerState:set('backpack', false)
     end)
 end
 
@@ -64,8 +70,8 @@ function tableChange(data)
 
     for vbag in pairs(Config.Backpacks) do
         count = ox_inventory:Search('count', vbag)
-
-        if count > 0 and (not bagEquipped) then
+        local bag = PlayerState.backpack
+        if count > 0 and bag == false then
             if count >= 1 then
                 PutOnBag(vbag)
                 if Config.Debug then
@@ -82,8 +88,8 @@ function boolChange()
     for vbag in pairs(Config.Backpacks) do
         count = count + ox_inventory:Search('count', vbag)
     end
-
-    if count > 0 and (not bagEquipped) then
+    local bag = PlayerState.backpack
+    if count > 0 and bag == false then
         if count >= 1 then
             PutOnBag(vbag)
             if Config.Debug then
